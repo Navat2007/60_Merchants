@@ -2,17 +2,49 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Game : MonoBehaviour
+enum Strategy
 {
-    // Start is called before the first frame update
-    void Start()
+    altruist,
+    thrower,
+    cunning,
+    unpredictable,
+    vindictive,
+    quirky
+}
+
+enum Behavior
+{
+    cooperate,
+    swindle
+}
+
+class Merchant
+{
+
+    float gold = 0;
+    Behavior current_behavior;
+    Strategy current_strategy;
+
+    public Merchant()
     {
-        
+
+
+
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+}
+
+public class Game : MonoBehaviour
+{
+
+
+
+    int max_merchants = 60;
+    int min_deals = 5;
+    int max_deals = 10;
+
+    List<Merchant> all_merchants = new List<Merchant>();
+
+
+
 }
