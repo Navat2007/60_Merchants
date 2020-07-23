@@ -23,133 +23,133 @@ public enum Behavior
 public class Merchant
 {
 
-    int id;
-    int gold;
-    int year_deals_count;    
-    bool be_throw = false;
+    private int _id;
+    private int _gold;
+    private int _yearDealsCount;
+    private bool _beThrow = false;
 
-    List<int> trader_list;
+    private List<int> _traderList;
 
-    Behavior current_behavior;
-    Strategy base_strategy;
-    Strategy current_strategy;
+    private Behavior _currentBehavior;
+    private Strategy _baseStrategy;
+    private Strategy _currentStrategy;
 
     public Merchant(int id, Strategy strategy)
     {
 
-        this.id = id;
-        gold = 0;
-        year_deals_count = 0;
-        trader_list = new List<int>();
-        base_strategy = strategy;
+        _id = id;
+        _gold = 0;
+        _yearDealsCount = 0;
+        _traderList = new List<int>();
+        _baseStrategy = strategy;
 
-        set_strategy(strategy);        
-
-    }
-
-    public int get_id()
-    {
-
-        return id;
+        SetStrategy(strategy);        
 
     }
 
-    public Behavior get_behavior()
+    public int GetId()
     {
 
-        return current_behavior;
+        return _id;
 
     }
 
-    public void set_behavior(Behavior behavior)
+    public Behavior GetBehavior()
     {
 
-        current_behavior = behavior;
+        return _currentBehavior;
 
     }
 
-    public Strategy get_strategy()
+    public void SetBehavior(Behavior behavior)
     {
 
-        return current_strategy;
+        _currentBehavior = behavior;
 
     }
 
-    public void set_strategy(Strategy strategy)
+    public Strategy GetStrategy()
     {
 
-        current_strategy = strategy;
+        return _currentStrategy;
 
-        switch (current_strategy)
+    }
+
+    public void SetStrategy(Strategy strategy)
+    {
+
+        _currentStrategy = strategy;
+
+        switch (_currentStrategy)
         {
 
             case Strategy.altruist:
-                current_behavior = Behavior.cooperate;
+                _currentBehavior = Behavior.cooperate;
                 break;
 
             case Strategy.thrower:
-                current_behavior = Behavior.swindle;
+                _currentBehavior = Behavior.swindle;
                 break;
 
             case Strategy.cunning:
-                current_behavior = Behavior.cooperate;
+                _currentBehavior = Behavior.cooperate;
                 break;
 
             case Strategy.unpredictable:
-                current_behavior = (Behavior)UnityEngine.Random.Range(0, 2);
+                _currentBehavior = (Behavior)UnityEngine.Random.Range(0, 2);
                 break;
 
             case Strategy.vindictive:
-                current_behavior = Behavior.cooperate;
+                _currentBehavior = Behavior.cooperate;
                 break;
 
             case Strategy.quirky:
-                current_behavior = Behavior.cooperate;
+                _currentBehavior = Behavior.cooperate;
                 break;
 
         }
 
     }
 
-    public void reset_strategy()
+    public void ResetStrategy()
     {
 
-        set_strategy(base_strategy);
+        SetStrategy(_baseStrategy);
 
     }
 
-    public int get_gold()
+    public int GetGold()
     {
 
-        return gold;
+        return _gold;
 
     }
 
-    public void add_gold(int value)
+    public void AddGold(int value)
     {
 
-        this.gold += value;
+        this._gold += value;
 
     }
 
-    public int get_deals()
+    public int GetYearDeals()
     {
 
-        return year_deals_count;
+        return _yearDealsCount;
 
     }
 
-    public void reset()
+    public void Reset()
     {
 
-        this.gold = 0;
-        this.year_deals_count = 0;
-        trader_list.Clear();
-        reset_strategy();
+        this._gold = 0;
+        this._yearDealsCount = 0;
+        _traderList.Clear();
+        ResetStrategy();
 
     }
 
-    public void make_deal(Behavior behavior, int deal_count)
+    public void MakeDeal(Behavior behavior, int dealCount)
     {
 
         /*
@@ -164,53 +164,53 @@ public class Merchant
         если оба сжульничают, то каждый получит только по 2 золотых.
         */
 
-        year_deals_count++;
+        _yearDealsCount++;
 
-        if (behavior == Behavior.cooperate && current_behavior == Behavior.cooperate)
-            add_gold(4);
-        else if (behavior == Behavior.swindle && current_behavior == Behavior.cooperate)
-            add_gold(1);
-        else if (behavior == Behavior.cooperate && current_behavior == Behavior.swindle)
-            add_gold(5);
+        if (behavior == Behavior.cooperate && _currentBehavior == Behavior.cooperate)
+            AddGold(4);
+        else if (behavior == Behavior.swindle && _currentBehavior == Behavior.cooperate)
+            AddGold(1);
+        else if (behavior == Behavior.cooperate && _currentBehavior == Behavior.swindle)
+            AddGold(5);
         else
-            add_gold(2);
+            AddGold(2);
 
-        switch (current_strategy)
+        switch (_currentStrategy)
         {
 
             case Strategy.altruist:
-                set_behavior(Behavior.cooperate);
+                SetBehavior(Behavior.cooperate);
                 break;
 
             case Strategy.thrower:
-                set_behavior(Behavior.swindle);
+                SetBehavior(Behavior.swindle);
                 break;
 
             case Strategy.cunning:
-                set_behavior(behavior);
+                SetBehavior(behavior);
                 break;
 
             case Strategy.unpredictable:
-                set_behavior((Behavior)UnityEngine.Random.Range(0, 2));
+                SetBehavior((Behavior)UnityEngine.Random.Range(0, 2));
                 break;
 
             case Strategy.vindictive:
                 if(behavior == Behavior.swindle)
-                    set_behavior(behavior);
+                    SetBehavior(behavior);
                 break;
 
             case Strategy.quirky:
 
                 if (behavior == Behavior.swindle)
-                    this.be_throw = true;
+                    this._beThrow = true;
 
-                if(deal_count >= 5)
+                if(dealCount >= 5)
                 {
 
-                    if (be_throw)
-                        set_strategy(Strategy.thrower);
+                    if (_beThrow)
+                        SetStrategy(Strategy.thrower);
                     else
-                        set_strategy(Strategy.cunning);
+                        SetStrategy(Strategy.cunning);
 
                 }
 
@@ -220,13 +220,13 @@ public class Merchant
 
     }
 
-    public bool not_trade_yet(int id)
+    public bool NotTradeYet(int id)
     {
 
-        if(!trader_list.Contains(id))
+        if(!_traderList.Contains(id))
         {
 
-            trader_list.Add(id);
+            _traderList.Add(id);
             return true;
 
         }
@@ -240,26 +240,28 @@ public class Merchant
 public class Game : MonoBehaviour
 {
 
+    [SerializeField] private UiManager _ui;
+
     [Header("Параметры: ")]
-    [SerializeField] int max_merchants = 60;
-    [SerializeField] int min_deals = 5;
-    [SerializeField] int max_deals = 10;
+    [SerializeField] private int _maxMerchants = 60;
+    [SerializeField] private int _minDeals = 5;
+    [SerializeField] private int _maxDeals = 10;
 
-    Dictionary<int, Merchant> all_merchants = new Dictionary<int, Merchant>();
+    private Dictionary<int, Merchant> _allMerchants = new Dictionary<int, Merchant>();
 
-    void Start()
+    private void Start()
     {
 
-        init_merchants();
+        InitMerchants();
 
-        UI_Manager.instance.create_merchant_list(all_merchants);
+        _ui.CreateMerchantList(_allMerchants);
 
-        UI_Manager.instance.on_next_move += next_move;
-        UI_Manager.instance.on_next_year += next_year;
+        _ui.onNextMove += NextMove;
+        _ui.onNextYear += NextYear;
 
-    }    
+    }
 
-    void init_merchants()
+    private void InitMerchants()
     {
 
         int strategy_count = Enum.GetNames(typeof(Strategy)).Length;
@@ -267,66 +269,66 @@ public class Game : MonoBehaviour
         foreach (Strategy strategy in Enum.GetValues(typeof(Strategy)))
         {
 
-            for (int i = 0; i < max_merchants/strategy_count; i++)
-                create_merchant(strategy);
+            for (int i = 0; i < _maxMerchants/strategy_count; i++)
+                CreateMerchant(strategy);
 
         }
 
     }
 
-    void create_merchant(Strategy strategy)
+    private void CreateMerchant(Strategy strategy)
     {
 
         int id = 1;
 
-        if(all_merchants.Count > 0)
+        if(_allMerchants.Count > 0)
         {
 
-            Merchant last = all_merchants[all_merchants.Keys.Max()];
-            id = last.get_id() + 1;
+            Merchant last = _allMerchants[_allMerchants.Keys.Max()];
+            id = last.GetId() + 1;
 
         }
 
-        all_merchants.Add(id, new Merchant(id, strategy));
+        _allMerchants.Add(id, new Merchant(id, strategy));
 
     }
 
-    void next_move(object sender, EventArgs e)
+    private void NextMove(object sender, EventArgs e)
     {        
 
-        foreach (KeyValuePair<int, Merchant> merch1 in all_merchants)
+        foreach (KeyValuePair<int, Merchant> merch1 in _allMerchants)
         {
 
-            foreach (KeyValuePair<int, Merchant> merch2 in all_merchants)
+            foreach (KeyValuePair<int, Merchant> merch2 in _allMerchants)
             {
 
                 if(
                     merch1.Key != merch2.Key && 
-                    merch1.Value.not_trade_yet(merch2.Key) && 
-                    merch2.Value.not_trade_yet(merch1.Key)
+                    merch1.Value.NotTradeYet(merch2.Key) && 
+                    merch2.Value.NotTradeYet(merch1.Key)
                     )
-                    make_deals(merch1.Value, merch2.Value);                                
+                    MakeDeals(merch1.Value, merch2.Value);                                
 
             }
 
         }
 
-        update_merchants();
+        UpdateMerchants();
 
     }
 
-    void make_deals(Merchant fisrt, Merchant second)
+    private void MakeDeals(Merchant fisrt, Merchant second)
     {        
 
-        int random_deals_count = UnityEngine.Random.Range(min_deals, max_deals + 1);
-        int deal_count = 0;
+        int randomDealsCount = UnityEngine.Random.Range(_minDeals, _maxDeals + 1);
+        int dealCount = 0;
 
-        for (int i = 0; i < random_deals_count; i++)
+        for (int i = 0; i < randomDealsCount; i++)
         {
 
-            deal_count++;
-            Behavior merch1_behavior = fisrt.get_behavior();
-            Behavior merch2_behavior = second.get_behavior();
+            dealCount++;
+            Behavior merch1Behavior = fisrt.GetBehavior();
+            Behavior merch2Behavior = second.GetBehavior();
 
             /*        
             В процессе сделки для каждого торговца существует 5% вероятность ошибиться 
@@ -334,41 +336,41 @@ public class Game : MonoBehaviour
             сжульничать вместо того, чтобы сотрудничать, или наоборот.
             */
 
-            if (get_random(5))
+            if (GetRandom(5))
             {
 
-                merch1_behavior = merch1_behavior == Behavior.cooperate ? Behavior.swindle : Behavior.cooperate;
+                merch1Behavior = merch1Behavior == Behavior.cooperate ? Behavior.swindle : Behavior.cooperate;
 
             }
 
-            if (get_random(5))
+            if (GetRandom(5))
             {
 
-                merch2_behavior = merch2_behavior == Behavior.cooperate ? Behavior.swindle : Behavior.cooperate;
+                merch2Behavior = merch2Behavior == Behavior.cooperate ? Behavior.swindle : Behavior.cooperate;
 
             }
 
-            fisrt.make_deal(merch2_behavior, deal_count);
-            second.make_deal(merch1_behavior, deal_count);
+            fisrt.MakeDeal(merch2Behavior, dealCount);
+            second.MakeDeal(merch1Behavior, dealCount);
 
         }
 
-        fisrt.reset_strategy();
-        second.reset_strategy();
+        fisrt.ResetStrategy();
+        second.ResetStrategy();
 
     }
 
-    void update_merchants()
+    private void UpdateMerchants()
     {
 
-        all_merchants = (from entry in all_merchants orderby entry.Value.get_gold() descending select entry)
+        _allMerchants = (from entry in _allMerchants orderby entry.Value.GetGold() descending select entry)
             .ToDictionary(pair => pair.Key, pair => pair.Value);
 
-        UI_Manager.instance.create_merchant_list(all_merchants);
+        _ui.CreateMerchantList(_allMerchants);
 
     }
 
-    void next_year(object sender, EventArgs e)
+    private void NextYear(object sender, EventArgs e)
     {
 
         /*
@@ -379,44 +381,44 @@ public class Game : MonoBehaviour
          */
 
         // Отбираем 20 самых неуспешных
-        var poor_merchants = (from entry in all_merchants orderby entry.Value.get_gold() ascending select entry)
+        var _poorMerchants = (from entry in _allMerchants orderby entry.Value.GetGold() ascending select entry)
             .Take(20)
             .ToDictionary(pair => pair.Key, pair => pair.Value);
 
         // Отбираем 20 самых успешных
-        var good_merchants = (from entry in all_merchants orderby entry.Value.get_gold() descending select entry)
+        var _goodMerchants = (from entry in _allMerchants orderby entry.Value.GetGold() descending select entry)
             .Take(20)
             .ToDictionary(pair => pair.Key, pair => pair.Value);
 
         // Удаляем
-        foreach (KeyValuePair<int, Merchant> merch in poor_merchants)
+        foreach (KeyValuePair<int, Merchant> merch in _poorMerchants)
         {
 
-            all_merchants.Remove(merch.Key);
+            _allMerchants.Remove(merch.Key);
 
         }
 
         // Очищаем
-        foreach (KeyValuePair<int, Merchant> merch in all_merchants)
+        foreach (KeyValuePair<int, Merchant> merch in _allMerchants)
         {
 
-            merch.Value.reset();
+            merch.Value.Reset();
 
         }
 
         // Добавляем
-        foreach (KeyValuePair<int, Merchant> merch in good_merchants)
+        foreach (KeyValuePair<int, Merchant> merch in _goodMerchants)
         {
 
-            create_merchant(merch.Value.get_strategy());
+            CreateMerchant(merch.Value.GetStrategy());
 
         }
 
-        UI_Manager.instance.create_merchant_list(all_merchants);
+        _ui.CreateMerchantList(_allMerchants);
 
     }
 
-    bool get_random(int procent)
+    private bool GetRandom(int procent)
     {
 
         if (UnityEngine.Random.Range(1, 101) <= procent)

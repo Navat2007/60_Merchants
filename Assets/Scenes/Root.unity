@@ -871,11 +871,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dea301f04e8d254a816297daaf788e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  merchant_list_container: {fileID: 501745534}
-  merchant_row_prefab: {fileID: 4871217530959095908, guid: 0269a641f9f63d64fae37293c37ebec0,
+  _merchantListContainer: {fileID: 501745534}
+  _merchantRowPrefab: {fileID: 4871217530959095908, guid: 0269a641f9f63d64fae37293c37ebec0,
     type: 3}
-  next_move_btn: {fileID: 1997785736}
-  next_year_btn: {fileID: 2121255365}
+  _nextMoveBtn: {fileID: 1997785736}
+  _nextYearBtn: {fileID: 2121255365}
 --- !u!114 &1286401865
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -888,9 +888,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c27c82dc9c319d4283bed83df3a4180, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  max_merchants: 60
-  min_deals: 5
-  max_deals: 10
+  _ui: {fileID: 1286401864}
+  _maxMerchants: 60
+  _minDeals: 5
+  _maxDeals: 10
 --- !u!4 &1286401866
 Transform:
   m_ObjectHideFlags: 0
